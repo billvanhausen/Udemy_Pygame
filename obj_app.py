@@ -9,6 +9,14 @@ class Laser(pygame.sprite.Sprite):
         super().__init__(groups)
         self.image = pygame.image.load('./graphics/laser.png').convert_alpha()
         self.rect = self.image.get_rect(midbottom = position)
+        self.pos = pygame.math.Vector2(self.rect.midbottom)
+
+    def move(self):
+        print(1 * delta_time * 1000)
+        if self.rect.y < 0:
+            laser_group.remove(self)
+        else:
+            self.rect.y -= round(1 * delta_time * 1000)
 
     @staticmethod
     def timer(duration = 500):
@@ -22,6 +30,9 @@ class Laser(pygame.sprite.Sprite):
             Laser.sound.play()
             Laser.can_shoot = False
             Laser.shoot_time = pygame.time.get_ticks()
+
+    def update(self):
+        self.move()
 
 class Ship(pygame.sprite.Sprite):
     def __init__(self,groups):
@@ -87,6 +98,7 @@ while True:
     
     # Update
     spaceship_group.update()
+    laser_group.update()
     
     # Draw
     display_surface.blit(background_surface,(0,0))
