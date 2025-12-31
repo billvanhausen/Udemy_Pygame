@@ -89,19 +89,14 @@ class Meteor(pygame.sprite.Sprite):
 class Score:
     def __init__(self):
         self.font = pygame.font.Font('./graphics/subatomic.ttf', 50)
-        self.text = f'Score: {pygame.time.get_ticks() // 1000}'
+        self.text = ''
         self.surface = self.font.render(self.text, True, 'White')
-        self.rect = self.image.get_rect(center = position)
+        self.rect = self.surface.get_rect(center = (WINDOW_WIDTH / 2, WINDOW_HEIGHT - 80))
 
-'''
-game_font = pygame.font.Font('./graphics/subatomic.ttf', 50)
-    score_text = f'Score: {pygame.time.get_ticks() // 1000}'
-    text_surface = game_font.render(score_text, True, 'White')
-    text_rect = text_surface.get_rect(center = (WINDOW_WIDTH / 2, WINDOW_HEIGHT - 80)) 
-    display_surface.blit(text_surface,text_rect)
-    pygame.draw.rect(display_surface,'white',text_rect.inflate(30,30),width = 5, border_radius=5)
-'''
-
+    def update(self):
+        self.text = f'Score: {pygame.time.get_ticks() // 1000}'
+        display_surface.blit(self.surface,self.rect)
+        pygame.draw.rect(display_surface,'white',self.rect.inflate(30,30),width = 5, border_radius=5)
 
 pygame.init()
 WINDOW_WIDTH, WINDOW_HEIGHT = 1024,576
@@ -123,7 +118,7 @@ meteor_group = pygame.sprite.Group()
 
 # Sprite Creation
 ship = Ship(spaceship_group)
-# meteor = Meteor(meteor_group)
+score = Score()
 
 background_music.set_volume(0.1)
 background_music.play(loops=-1)
@@ -146,6 +141,7 @@ while True:
     spaceship_group.update()
     laser_group.update()
     meteor_group.update()
+    score.update()
     
     # Draw
     display_surface.blit(background_surface,(0,0))
