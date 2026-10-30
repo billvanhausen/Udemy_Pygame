@@ -1,4 +1,6 @@
-import pygame, sys, random
+import pygame
+import random
+import sys
 
 def laser_update(list, speed = 1000):
     
